@@ -1,0 +1,63 @@
+// main.c
+
+#include <stdio.h>
+#include <string.h>
+#include "inventario.h"
+
+int main() {
+    char nombres[10][30];
+    float precios[10];
+    int cantidad = 0;
+    int opcion;
+    char buscado[30];
+
+    ingresarDatos(nombres, precios, &cantidad);
+
+    do {
+        printf("\n--- MENÚ ---\n");
+        printf("1. Mostrar inventario\n");
+        printf("2. Calcular total\n");
+        printf("3. Calcular promedio\n");
+        printf("4. Producto más caro\n");
+        printf("5. Producto más barato\n");
+        printf("6. Buscar producto\n");
+        printf("0. Salir\n");
+        printf("Seleccione una opción: ");
+        scanf("%d", &opcion);
+
+        switch (opcion) {
+            case 1:
+                mostrarInventario(nombres, precios, cantidad);
+                break;
+            case 2:
+                printf("Total del inventario: $%.2f\n", calcularTotal(precios, cantidad));
+                break;
+            case 3:
+                printf("Precio promedio: $%.2f\n", calcularPromedio(precios, cantidad));
+                break;
+            case 4: {
+                int i = encontrarMasCaro(precios, cantidad);
+                printf("Producto más caro: %s - $%.2f\n", nombres[i], precios[i]);
+                break;
+            }
+            case 5: {
+                int i = encontrarMasBarato(precios, cantidad);
+                printf("Producto más barato: %s - $%.2f\n", nombres[i], precios[i]);
+                break;
+            }
+            case 6:
+                printf("Ingrese el nombre del producto a buscar: ");
+                scanf(" %[^\n]", buscado);
+                buscarProducto(nombres, precios, cantidad, buscado);
+                break;
+            case 0:
+                printf("Saliendo del programa.\n");
+                break;
+            default:
+                printf("Opción inválida.\n");
+        }
+
+    } while (opcion != 0);
+
+    return 0;
+}
